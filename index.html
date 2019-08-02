@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        body{
+            padding: 10px;
+        }
+        .hl{
+            color: red;
+        }
+        ul{
+            list-style: none;
+            width: 200px;
+        }
+        li{
+            border: 1px solid #555;
+        }
+        li:hover{
+            cursor: pointer;
+        }
+        li:not(:last-child){
+            border-bottom: none;
+        }
+    </style>
+</head>
+<body>
+    <form action="#">
+        <input id="keyword">
+        <ul id="sug">
+        </ul>
+    </form>
+    <script src="https://libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+    <script>
+        $("#keyword").keyup(function(){
+            var keyword = $("#keyword").val()
+
+            if(keyword.trim()===''){
+                return
+            }
+            $.get('http://127.0.0.1:80/search.php?keyword='+keyword,function(res){
+
+                let searchRes = JSON.parse(res)
+                let html = ''
+                let len = keyword.length
+                for(var word of searchRes){
+                    var rest = word.substr(len)
+                    var hlWord = `<span class="hl">${keyword}</span>${rest}`
+                    html += `<li>${hlWord}</li>`
+                }
+                $("#sug").html(html)
+            })
+        })
+    </script>
+</body>
+</html>
