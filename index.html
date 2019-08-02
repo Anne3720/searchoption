@@ -53,10 +53,16 @@
                 for(var word of searchRes){
                     var rest = word.substr(len)
                     var hlWord = `<span class="hl">${keyword}</span>${rest}`
-                    html += `<li>${hlWord}</li>`
+                    html += `<li data-v=${word}>${hlWord}</li>`
                 }
                 $("#sug").html(html)
             })
+        })
+        $("#sug").on("click","li",function(event){
+            var target = $(event.target);
+            var val = target.data('v')
+
+            $("#keyword").val(val)
         })
     </script>
 </body>
